@@ -115,7 +115,7 @@ export function Home() {
             <button onClick={() => setUi({ info: 'help' })} style={{ background: 'none', border: 0, cursor: 'pointer', opacity: 0.9, fontWeight: 500 }}>Docs</button>
             <button onClick={() => navigate({ name: 'pricing' })} style={{ background: 'none', border: 0, cursor: 'pointer', opacity: 0.9, fontWeight: 500 }}>Pricing</button>
           </nav>
-          <button onClick={() => { setGitAgent(true); toast('GitAgent protocol selected · beta'); taRef.current?.focus(); }} className="row" style={{ gap: 8, padding: '8px 14px', borderRadius: 999, border: '1px solid color-mix(in srgb,var(--color-text) 14%,transparent)', background: 'color-mix(in srgb,var(--color-panel) 55%,transparent)', backdropFilter: 'blur(8px)', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginTop: 12, maxWidth: '100%', whiteSpace: 'nowrap' }}>
+          <button data-tour="home-gitagent" onClick={() => { setGitAgent(true); toast('GitAgent protocol selected · beta'); taRef.current?.focus(); }} className="row" style={{ gap: 8, padding: '8px 14px', borderRadius: 999, border: '1px solid color-mix(in srgb,var(--color-text) 14%,transparent)', background: 'color-mix(in srgb,var(--color-panel) 55%,transparent)', backdropFilter: 'blur(8px)', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginTop: 12, maxWidth: '100%', whiteSpace: 'nowrap' }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.06em', padding: '2px 7px', borderRadius: 999, background: 'var(--color-accent)', color: '#fff', flex: 'none' }}>BETA</span>
             <span className="ellipsis">Build with any framework using the GitAgent protocol</span><Icon name="chevronRight" />
           </button>

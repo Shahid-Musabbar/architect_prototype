@@ -32,7 +32,7 @@ export function ChatPane({ p, isFocus, onGrip }: { p: Project; isFocus: boolean;
         {isFocus && <button className="btn btn-ghost plain btn-sm" onClick={() => setWs({ focusThread: !focusThread })}>{focusThread ? 'Collapse' : 'Show thread'}</button>}
         <ChatsMenu p={p} />
         {!isFocus && <button className="ib sm" onClick={() => setWs({ paneHidden: true })} title="Collapse chat"><Icon name={side === 'left' ? 'chevronLeft' : 'chevronRight'} size={15} /></button>}
-        {!isFocus && <button className="ib sm" onClick={() => { const s2 = side === 'left' ? 'right' : 'left'; setState({ paneSide: s2 }); toast(`Chat moved to the ${s2}`); }} title={side === 'left' ? 'Move chat to the right' : 'Move chat to the left'}><Icon name="swap" size={15} /></button>}
+        {!isFocus && <button data-tour="chat-swap-side" className="ib sm" onClick={() => { const s2 = side === 'left' ? 'right' : 'left'; setState({ paneSide: s2 }); toast(`Chat moved to the ${s2}`); }} title={side === 'left' ? 'Move chat to the right' : 'Move chat to the left'}><Icon name="swap" size={15} /></button>}
       </div>
 
       {showThread && (

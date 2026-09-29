@@ -42,7 +42,7 @@ export function Header({ p, narrow }: { p: Project; narrow: boolean }) {
         wrapStyle={{ flexShrink: 0 }}
         style={{ top: 'calc(100% + 8px)', left: 0, width: 340 }}
         anchor={
-          <button onClick={() => setDrafts(!drafts)} className="row" style={{ gap: 8, padding: '5px 10px', borderRadius: 10, border: 0, background: drafts ? 'var(--color-neutral-100)' : 'none', cursor: 'pointer', minWidth: 0 }} aria-haspopup="menu" aria-expanded={drafts}>
+          <button data-tour="draft-dropdown" onClick={() => setDrafts(!drafts)} className="row" style={{ gap: 8, padding: '5px 10px', borderRadius: 10, border: 0, background: drafts ? 'var(--color-neutral-100)' : 'none', cursor: 'pointer', minWidth: 0 }} aria-haspopup="menu" aria-expanded={drafts}>
             <span className="ellipsis" style={{ fontSize: 14, fontWeight: 600, maxWidth: narrow ? 110 : 180 }}>{p.name}</span>
             <span className="nowrap" style={{ fontSize: 13, opacity: 0.6 }}>{onDraft ? draft?.name : 'Main'}</span>
             <span style={{ opacity: 0.6, display: 'flex' }}><Icon name={drafts ? 'chevronDown' : 'updown'} size={14} /></span>
@@ -116,7 +116,7 @@ export function Header({ p, narrow }: { p: Project; narrow: boolean }) {
       {tab === 'agents' && !narrow && <button className="btn btn-secondary btn-sm" onClick={() => { window.open('https://studio.lyzr.ai', '_blank', 'noopener'); }} title="Open in Agent Studio"><Icon name="external" size={14} />Agent Studio</button>}
       {plan !== 'team' && <button className="btn btn-invert btn-sm" onClick={() => navigate({ name: 'pricing' })}>Upgrade</button>}
       <SharePopover p={p} />
-      <button className="btn btn-primary btn-sm" onClick={openPublish} disabled={building && !p.appReady}>
+      <button data-tour="publish-btn" className="btn btn-primary btn-sm" onClick={openPublish} disabled={building && !p.appReady}>
         {p.published ? <><span className="dot" style={{ background: p.status === 'Paused' ? '#f59e0b' : '#4ade80' }} />Published</> : 'Publish'}
       </button>
     </header>

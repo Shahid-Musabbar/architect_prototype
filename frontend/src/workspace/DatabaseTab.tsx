@@ -27,7 +27,7 @@ export function DatabaseTab({ p }: { p: Project }) {
   return (
     <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
       <div className="col" style={{ width: 230, flex: 'none', borderRight: '1px solid var(--color-divider)', minHeight: 0 }}>
-        <div className="row" style={{ gap: 8, padding: '12px 14px', borderBottom: '1px solid var(--color-divider)' }}><span style={{ color: '#22c55e', display: 'flex' }}><Icon name="database" /></span><span className="grow" style={{ fontWeight: 600, fontSize: 14 }}>Database</span><span className="tag tag-ok">Live</span></div>
+        <div data-tour="db-panel" className="row" style={{ gap: 8, padding: '12px 14px', borderBottom: '1px solid var(--color-divider)' }}><span style={{ color: '#22c55e', display: 'flex' }}><Icon name="database" /></span><span className="grow" style={{ fontWeight: 600, fontSize: 14 }}>Database</span><span className="tag tag-ok">Live</span></div>
         <div style={{ padding: '8px 8px 4px' }}><Pills value={view} onChange={v => setWs({ dbView: v })} options={[{ v: 'tables', label: 'Tables' }, { v: 'sql', label: 'SQL' }, { v: 'auth', label: 'Users' }]} /></div>
         <div className="menu-label" style={{ padding: '10px 14px 4px' }}>Tables</div>
         <div className="col" style={{ flex: 1, overflow: 'auto', padding: '0 6px 10px', gap: 1 }}>

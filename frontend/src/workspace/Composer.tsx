@@ -176,7 +176,7 @@ export function Composer({ p }: { p: Project }) {
           open={ring}
           onClose={() => setRing(false)}
           style={{ right: -120, bottom: 'calc(100% + 10px)', width: 280, padding: 14, display: 'flex', flexDirection: 'column', gap: 12 }}
-          anchor={<button className="tog" style={{ gap: 5, padding: '0 7px', opacity: 0.9 }} onClick={() => setRing(!ring)} title={`${ctxPct}% of context used`}><Ring pct={ctxPct} size={18} />{!compact && <span style={{ fontSize: 11.5, opacity: 0.7 }}>{ctxPct}%</span>}</button>}
+          anchor={<button data-tour="composer-context-ring" className="tog" style={{ gap: 5, padding: '0 7px', opacity: 0.9 }} onClick={() => setRing(!ring)} title={`${ctxPct}% of context used`}><Ring pct={ctxPct} size={18} />{!compact && <span style={{ fontSize: 11.5, opacity: 0.7 }}>{ctxPct}%</span>}</button>}
         >
           <div className="col" style={{ gap: 6 }}>
             <div className="row" style={{ justifyContent: 'space-between', fontSize: 13 }}><span style={{ fontWeight: 600 }}>Chat context</span><span style={{ opacity: 0.65 }}>{ctxPct}% used</span></div>
@@ -191,7 +191,7 @@ export function Composer({ p }: { p: Project }) {
           <button className="btn btn-secondary btn-sm" onClick={() => { setRing(false); newChat(p.id, true); }}><Icon name="sparkles" size={14} />New chat with summary</button>
           <button className="btn btn-secondary btn-sm" onClick={() => { setRing(false); navigate({ name: 'settings', tab: 'usage' }); }}>View usage by project and model</button>
         </Popover>
-        <button className={cx('tog', selectMode && 'on')} disabled={!p.appReady} title={p.appReady ? 'Point at something in the preview to change it' : 'Available once the app is built'} onClick={() => setWs(w => ({ selectMode: !w.selectMode, selected: null, hover: null, tab: 'preview', editAgent: null }))}><Icon name="pointer" size={15} />{!compact && 'Select'}</button>
+        <button data-tour="composer-select" className={cx('tog', selectMode && 'on')} disabled={!p.appReady} title={p.appReady ? 'Point at something in the preview to change it' : 'Available once the app is built'} onClick={() => setWs(w => ({ selectMode: !w.selectMode, selected: null, hover: null, tab: 'preview', editAgent: null }))}><Icon name="pointer" size={15} />{!compact && 'Select'}</button>
         <button className={cx('tog', planMode && 'on')} title={planMode ? 'Architect proposes a plan before each change' : 'Plan first before changing anything'} onClick={() => setWs({ planMode: !planMode })}><Icon name="bulb" size={15} />{!compact && 'Plan'}</button>
         <button className={cx('ib round', dict.on && 'on')} style={{ width: 32, height: 32 }} title={dict.on ? 'Stop dictation' : 'Dictate'} onClick={() => dict.toggle(msg => toast(msg, 'warn'))} aria-pressed={dict.on}>
           {dict.on ? <span className="dot" style={{ background: 'var(--danger)', width: 10, height: 10, animation: 'arch-pulse 1s infinite' }} /> : <Icon name="mic" />}

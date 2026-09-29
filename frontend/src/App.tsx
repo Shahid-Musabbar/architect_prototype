@@ -6,6 +6,7 @@ import { ConfirmHost, Toast } from './components/ui';
 import { Sidebar } from './components/Sidebar';
 import { CommandPalette } from './components/CommandPalette';
 import { InfoDialogs } from './components/InfoDialogs';
+import { ProductTour } from './components/ProductTour';
 import { Auth } from './screens/Auth';
 import { Home } from './screens/Home';
 import { Projects } from './screens/Projects';
@@ -84,6 +85,7 @@ export default function App() {
       <InfoDialogs />
       <ConfirmHost />
       <Toast />
+      {signedIn && route.name !== 'site' && <ProductTour />}
     </div>
   );
 }

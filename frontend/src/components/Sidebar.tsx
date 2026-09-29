@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Icon, type IconName } from '../icons';
 import { useApp, setUi } from '../store';
 import { navigate, signOut, toggleTheme } from '../actions';
+import { startProductTour } from './ProductTour';
 import { Avatar, Logo, Popover } from './ui';
 import { PLANS, planCredits } from '../data/constants';
 import { cx, modKey } from '../lib/util';
@@ -51,6 +52,7 @@ export function Sidebar() {
     ['Help Center', 'book', () => setUi({ info: 'help' }), false],
     ['Release notes', 'news', () => setUi({ info: 'release' }), false],
     ['Status', 'activity', () => setUi({ info: 'status' }), false],
+    ['Product tour', 'sparkles', startProductTour, false],
   ];
 
   return (
@@ -94,7 +96,7 @@ export function Sidebar() {
           </div>
         </Popover>
         {nav.map(([label, ic, fn, on, count]) => (
-          <button key={label} className={cx('side-btn', on && 'on')} onClick={go(fn)}><Icon name={ic} />{label}{count !== undefined && count > 0 && <span className="count">{count}</span>}</button>
+          <button key={label} data-tour={label === 'Projects' ? 'sidebar-projects' : undefined} className={cx('side-btn', on && 'on')} onClick={go(fn)}><Icon name={ic} />{label}{count !== undefined && count > 0 && <span className="count">{count}</span>}</button>
         ))}
         <div className="hr" style={{ margin: '10px 4px' }} />
         <div style={{ padding: '2px 10px 4px', fontSize: 11, letterSpacing: '.06em', textTransform: 'uppercase', opacity: 0.55 }}>Agent quality</div>

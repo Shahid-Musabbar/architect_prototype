@@ -30,7 +30,7 @@ export function PlanPanel({ p }: { p: Project }) {
   const agents = p.agents.map((x, i) => ({ name: x.name, role: x.goal, model: x.model.replace('Claude ', ''), today: ['312 routed today', '86 tasks today', '140 answers today', '41 handled today', '12 handled today'][i % 5] }));
 
   return (
-    <div className="col" style={{ position: 'absolute', inset: 0, zIndex: 22, background: 'var(--color-panel)', minHeight: 0, overflow: 'hidden' }}>
+    <div data-tour="plan-panel" className="col" style={{ position: 'absolute', inset: 0, zIndex: 22, background: 'var(--color-panel)', minHeight: 0, overflow: 'hidden' }}>
       <div className="row" style={{ alignItems: 'flex-end', gap: 4, padding: '8px 10px 0', borderBottom: '1px solid var(--color-divider)', flex: 'none' }}>
         <button style={tab(view === 'plan')} onClick={() => setWs({ planView: 'plan' })}><Icon name="pin" size={14} />Plan</button>
         <button style={tab(view === 'mockup')} onClick={() => setWs({ planView: 'mockup' })}><Icon name="palette" size={14} />App Mockup</button>
@@ -90,7 +90,7 @@ export function PlanPanel({ p }: { p: Project }) {
             <div className="pills">{MOCK_SCREENS.map(([n], i) => <button key={n} className={cx(ms === i && 'on')} onClick={() => setWs({ mockScreen: i })}>{i + 1} · {n}</button>)}</div>
             <div className="grow" />
             <span style={{ fontSize: 12, opacity: 0.6 }}>Palette</span>
-            <div className="row" style={{ gap: 6 }}>{PALETTES.map(x => <button key={x.id} title={x.name} onClick={() => setPalette(p.id, x.id)} style={{ width: 26, height: 26, borderRadius: '50%', padding: 0, border: x.id === pal.id ? '2px solid var(--color-accent)' : '1px solid var(--color-divider)', overflow: 'hidden', display: 'flex', cursor: 'pointer', background: 'none', transform: 'rotate(45deg)' }}><span style={{ flex: 1, background: x.bg }} /><span style={{ flex: 1, background: x.accent }} /></button>)}</div>
+            <div data-tour="mockup-palette" className="row" style={{ gap: 6 }}>{PALETTES.map(x => <button key={x.id} title={x.name} onClick={() => setPalette(p.id, x.id)} style={{ width: 26, height: 26, borderRadius: '50%', padding: 0, border: x.id === pal.id ? '2px solid var(--color-accent)' : '1px solid var(--color-divider)', overflow: 'hidden', display: 'flex', cursor: 'pointer', background: 'none', transform: 'rotate(45deg)' }}><span style={{ flex: 1, background: x.bg }} /><span style={{ flex: 1, background: x.accent }} /></button>)}</div>
             <button className="btn btn-primary btn-sm" disabled={building} onClick={() => startBuilding(p.id)}><Icon name="hammer" size={14} />Start building</button>
           </div>
           <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: 16, background: 'var(--color-surface)' }}>
