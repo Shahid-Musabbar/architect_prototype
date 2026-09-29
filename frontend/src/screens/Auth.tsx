@@ -1,24 +1,18 @@
 import { useState } from 'react';
 import { Icon } from '../icons';
-import { useApp, setState } from '../store';
-import { navigate, signIn, startProject, validEmail, toast } from '../actions';
+import { signIn, validEmail, toast } from '../actions';
 import { Logo, Spinner } from '../components/ui';
-import { BLUEPRINTS } from '../data/templates';
 import { supabase, supabaseConfigured } from '../lib/supabase';
 import { cx, wait } from '../lib/util';
 
 export function Auth() {
-  const route = useApp(s => s.ui.route);
-  const exp = useApp(s => s.exp);
-  const signedIn = useApp(s => s.signedIn);
   const [email, setEmail] = useState('');
   const [touched, setTouched] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
-  const step = route.name === 'onboard' ? route.step : 0;
 
   const googleSignIn = async () => {
     if (!supabaseConfigured() || !supabase) {
-      toast('Google sign-in isn’t configured yet — set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY (see README) and restart the dev server.', 'warn');
+      toast('Google sign-in isn’t configured yet — set SUPABASE_URL and SUPABASE_ANON_KEY (see README) and restart the dev server.', 'warn');
       return;
     }
     setBusy('google');
@@ -28,12 +22,6 @@ export function Auth() {
     });
     // On success the browser navigates away to Google, so this line only runs on failure.
     if (error) { setBusy(null); toast('Google sign-in failed. Please try again.', 'warn'); }
-  };
-  const provider = async (p: string, mail?: string) => {
-    setBusy(p);
-    await wait(700);
-    setBusy(null);
-    signIn(undefined, mail);
   };
   const emailOk = validEmail(email);
   const submitEmail = () => {
@@ -59,12 +47,11 @@ export function Auth() {
         </div>
       </div>
       <div className="row" style={{ justifyContent: 'center', padding: '48px 32px' }}>
-        {step === 0 && (
-          <form className="col" style={{ width: '100%', maxWidth: 380, gap: 14 }} onSubmit={e => { e.preventDefault(); submitEmail(); }}>
+        <form className="col" style={{ width: '100%', maxWidth: 380, gap: 14 }} onSubmit={e => { e.preventDefault(); submitEmail(); }}>
             <h2 style={{ margin: '0 0 4px' }}>Sign in to Architect</h2>
             <p style={{ margin: '0 0 8px', fontSize: 14, opacity: 0.7 }}>New here? The same button creates your account.</p>
             <button type="button" className="btn btn-secondary btn-block" style={{ height: 42 }} disabled={!!busy} onClick={googleSignIn}>{busy === 'google' ? <Spinner /> : <Icon name="globe" />}Continue with Google</button>
-            <button type="button" className="btn btn-secondary btn-block" style={{ height: 42 }} disabled={!!busy} onClick={() => provider('github')}>{busy === 'github' ? <Spinner /> : <Icon name="github" />}Continue with GitHub</button>
+            <button type="button" className="btn btn-secondary btn-block" style={{ height: 42 }} title="Not implemented" onClick={() => toast('GitHub sign-in is not implemented yet.', 'warn')}><Icon name="github" />Continue with GitHub</button>
             <div className="row" style={{ gap: 12, fontSize: 12, opacity: 0.6 }}><div className="grow" style={{ height: 1, background: 'var(--color-divider)' }} />or<div className="grow" style={{ height: 1, background: 'var(--color-divider)' }} /></div>
             <div className="field">
               <label htmlFor="auth-email">Work email</label>
@@ -73,43 +60,7 @@ export function Auth() {
             </div>
             <button type="submit" className="btn btn-primary btn-block" style={{ height: 42 }} disabled={!!busy}>{busy === 'email' && <Spinner />}Continue with email</button>
             <p style={{ margin: '6px 0 0', fontSize: 12, opacity: 0.6 }}>By continuing you agree to the Terms and Privacy Policy.</p>
-          </form>
-        )}
-        {step === 1 && (
-          <div className="col" style={{ width: '100%', maxWidth: 520, gap: 16 }}>
-            <div style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>Step 1 of 2</div>
-            <h2 style={{ margin: 0 }}>How do you like to work?</h2>
-            <p style={{ margin: 0, fontSize: 14, opacity: 0.7 }}>This only changes how much detail you see. Switch any time in Settings.</p>
-            {([['guided', 'Guided', 'Recommended', 'Plain-language progress, sensible defaults, no code unless you ask for it.'], ['pro', 'Pro', 'For developers', 'File-level steps, tool traces on every reply, and the code editor always a click away.']] as const).map(([id, title, tag, body]) => (
-              <button key={id} onClick={() => setState({ exp: id })} aria-pressed={exp === id} className="col" style={{ gap: 6, textAlign: 'left', padding: '16px 18px', borderRadius: 12, border: '1px solid ' + (exp === id ? 'var(--color-accent)' : 'var(--color-divider)'), background: exp === id ? 'color-mix(in srgb,var(--color-accent) 8%,transparent)' : 'var(--color-surface)', cursor: 'pointer' }}>
-                <div className="row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: 19, fontWeight: 600 }}>{title}</span><span className="tag tag-outline">{tag}</span></div>
-                <div style={{ fontSize: 14, lineHeight: 1.5, opacity: 0.75 }}>{body}</div>
-              </button>
-            ))}
-            <div className="row" style={{ justifyContent: signedIn ? 'flex-end' : 'space-between' }}>
-              {!signedIn && <button className="btn btn-ghost" onClick={() => navigate({ name: 'auth' })}>Back</button>}
-              <button className="btn btn-primary" onClick={() => { if (!signedIn) setState({ signedIn: true }); navigate({ name: 'onboard', step: 2 }); }}>Continue<Icon name="arrowRight" /></button>
-            </div>
-          </div>
-        )}
-        {step === 2 && (
-          <div className="col" style={{ width: '100%', maxWidth: 520, gap: 16 }}>
-            <div style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>Step 2 of 2</div>
-            <h2 style={{ margin: 0 }}>What should your first agent do?</h2>
-            <p style={{ margin: 0, fontSize: 14, opacity: 0.7 }}>Pick a blueprint and Architect will ask a few questions, then build it.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10 }}>
-              {BLUEPRINTS.map(b => (
-                <button key={b.t} className="card" onClick={() => { if (!signedIn) setState({ signedIn: true }); startProject(b.p); }}>
-                  <div className="card-kicker">{b.k}</div><div className="card-title">{b.t}</div><p className="card-body">{b.b}</p>
-                </button>
-              ))}
-            </div>
-            <div className="row" style={{ justifyContent: 'space-between' }}>
-              <button className="btn btn-ghost" onClick={() => navigate({ name: 'onboard', step: 1 })}>Back</button>
-              <button className="btn btn-secondary" onClick={() => { if (!signedIn) setState({ signedIn: true }); navigate({ name: 'home' }); }}>Skip — I'll describe my own</button>
-            </div>
-          </div>
-        )}
+        </form>
       </div>
     </div>
   );

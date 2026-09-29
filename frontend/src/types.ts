@@ -124,7 +124,6 @@ export type ProjFilter = 'all' | 'starred' | 'recent' | 'shared';
 
 export type Route =
   | { name: 'auth' }
-  | { name: 'onboard'; step: 1 | 2 }
   | { name: 'home' }
   | { name: 'projects'; filter: ProjFilter }
   | { name: 'settings'; tab: SettingsTab }

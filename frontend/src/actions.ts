@@ -66,7 +66,7 @@ export function syncRouteFromHash() { applyRoute(parseHash(location.hash)); }
 
 export function signIn(name?: string, email?: string) {
   const s = getState();
-  navigate({ name: 'onboard', step: 1 });
+  navigate({ name: 'home' });
   setState({ signedIn: true, user: { ...s.user, ...(name ? { name } : {}), ...(email ? { email } : {}) } });
 }
 export function signOut() {
@@ -80,7 +80,7 @@ export function signOut() {
  * Picks up a real Google session established via Supabase (either just completed
  * through the OAuth redirect, or already persisted from an earlier visit) and syncs
  * it into the app's own signed-in state. Guarded by `supabaseUserId` so it only runs
- * `signIn()` — which resets onboarding — once per distinct Supabase session, not on
+ * `signIn()` once per distinct Supabase session, not on
  * every reload.
  */
 export async function syncSupabaseSession() {

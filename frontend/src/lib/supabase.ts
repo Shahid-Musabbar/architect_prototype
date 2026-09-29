@@ -1,7 +1,7 @@
 import { createClient, type Session } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const url = import.meta.env.SUPABASE_URL;
+const anonKey = import.meta.env.SUPABASE_ANON_KEY;
 
 export const supabaseConfigured = () => !!url && !!anonKey;
 

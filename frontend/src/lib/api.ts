@@ -1,6 +1,6 @@
 /** Thin client for the Python backend (auth/profile only — see the backend's README). */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.BACKEND_API_URL || 'http://localhost:8000';
 
 export interface Profile {
   id: string;

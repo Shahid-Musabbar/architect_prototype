@@ -8,7 +8,7 @@ export function parseHash(hash: string): Route {
   const [a, b, c, ...rest] = parts;
   switch (a) {
     case 'auth': return { name: 'auth' };
-    case 'onboard': return { name: 'onboard', step: b === '2' ? 2 : 1 };
+    case 'onboard': return { name: 'home' };
     case 'projects': return { name: 'projects', filter: FILTERS.includes(b as ProjFilter) ? (b as ProjFilter) : 'all' };
     case 'settings': return { name: 'settings', tab: TABS.includes(b as SettingsTab) ? (b as SettingsTab) : 'general' };
     case 'pricing': return { name: 'pricing' };
@@ -24,7 +24,6 @@ export function parseHash(hash: string): Route {
 export function toHash(r: Route): string {
   switch (r.name) {
     case 'auth': return '#/auth';
-    case 'onboard': return `#/onboard/${r.step}`;
     case 'home': return '#/home';
     case 'projects': return `#/projects/${r.filter}`;
     case 'settings': return `#/settings/${r.tab}`;

@@ -40,7 +40,7 @@ export default function App() {
 
   useEffect(() => {
     const open = route.name === 'site';
-    if (!signedIn && !open && route.name !== 'auth' && route.name !== 'onboard') navigate({ name: 'auth' });
+    if (!signedIn && !open && route.name !== 'auth') navigate({ name: 'auth' });
     if (signedIn && route.name === 'auth') navigate({ name: 'home' });
   }, [signedIn, route]);
 
@@ -57,7 +57,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const titles: Record<string, string> = { auth: 'Sign in', onboard: 'Welcome', home: 'Home', projects: 'Projects', settings: 'Settings', pricing: 'Pricing' };
+    const titles: Record<string, string> = { auth: 'Sign in', home: 'Home', projects: 'Projects', settings: 'Settings', pricing: 'Pricing' };
     const s = getState();
     const p = 'pid' in route ? s.projects.find(x => x.id === route.pid) : undefined;
     document.title = route.name === 'site' ? (p?.name || 'Site') : `${p ? p.name + ' · ' : titles[route.name] ? titles[route.name] + ' · ' : ''}Architect`;
@@ -65,7 +65,7 @@ export default function App() {
 
   let body;
   if (route.name === 'site') body = <SiteView pid={route.pid} path={route.path} />;
-  else if (route.name === 'auth' || route.name === 'onboard') body = <Auth />;
+  else if (route.name === 'auth') body = <Auth />;
   else if (route.name === 'workspace') body = <Workspace key={route.pid} pid={route.pid} />;
   else if (route.name === 'projectSettings') body = <ProjectSettings pid={route.pid} page={route.page} />;
   else body = (
